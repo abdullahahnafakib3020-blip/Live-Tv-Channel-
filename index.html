@@ -3,11 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bangladesh Live TV Portal</title>
-    
-    <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
-    <link href="https://unpkg.com/@videojs/themes@1.0.1/dist/city/index.css" rel="stylesheet">
-
+    <title>BD Live TV Portal</title>
     <style>
         body {
             margin: 0;
@@ -18,9 +14,9 @@
         }
 
         header {
-            background-color: #006a4e; /* BD Green */
+            background-color: #006a4e; /* Bangladesh Green */
             padding: 15px 20px;
-            border-bottom: 4px solid #f42a41; /* BD Red */
+            border-bottom: 4px solid #f42a41; /* Bangladesh Red */
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -28,33 +24,25 @@
 
         header h1 {
             margin: 0;
-            font-size: 1.6rem;
+            font-size: 1.4rem;
             color: #ffffff;
-            letter-spacing: 0.5px;
         }
 
         .live-badge {
             background-color: #f42a41;
-            padding: 5px 12px;
+            padding: 4px 10px;
             border-radius: 20px;
             font-weight: bold;
-            font-size: 0.85rem;
-            animation: blink 1.5s infinite;
-        }
-
-        @keyframes blink {
-            0% { opacity: 1; }
-            50% { opacity: 0.4; }
-            100% { opacity: 1; }
+            font-size: 0.8rem;
         }
 
         .main-container {
             display: flex;
             flex-direction: column;
-            max-width: 1500px;
-            margin: 20px auto;
-            padding: 0 20px;
-            gap: 20px;
+            max-width: 1400px;
+            margin: 15px auto;
+            padding: 0 15px;
+            gap: 15px;
         }
 
         @media (min-width: 992px) {
@@ -67,49 +55,60 @@
             flex: 3;
         }
 
+        /* Responsive Player Container */
         .video-wrapper {
             position: relative;
-            width: 100%;
-            border-radius: 12px;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+            border-radius: 10px;
             background: #000;
             border: 1px solid #1f2736;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
         }
 
         .current-playing {
-            margin-top: 15px;
-            font-size: 1.2rem;
+            margin-top: 12px;
+            font-size: 1.1rem;
             font-weight: bold;
             color: #00ffaa;
         }
 
+        /* Sidebar Channel Selector */
         .channel-sidebar {
             flex: 1.2;
             background-color: #131924;
-            border-radius: 12px;
+            border-radius: 10px;
             border: 1px solid #1f2736;
             display: flex;
             flex-direction: column;
-            max-height: 650px;
         }
 
         .sidebar-header {
-            padding: 15px;
+            padding: 12px;
             border-bottom: 1px solid #1f2736;
             font-weight: bold;
-            font-size: 1.1rem;
             background-color: #1a2233;
-            border-radius: 12px 12px 0 0;
+            border-radius: 10px 10px 0 0;
             color: #00ffaa;
         }
 
         .channel-list {
-            overflow-y: auto;
             padding: 10px;
             display: flex;
             flex-direction: column;
             gap: 8px;
+            max-height: 450px;
+            overflow-y: auto;
         }
 
         .channel-item {
@@ -118,14 +117,14 @@
             background-color: #1c2536;
             border: 1px solid #28344a;
             color: #fff;
-            padding: 12px 15px;
-            border-radius: 8px;
+            padding: 12px;
+            border-radius: 6px;
             cursor: pointer;
             text-align: left;
             font-size: 0.95rem;
-            transition: all 0.2s ease;
             width: 100%;
             box-sizing: border-box;
+            transition: all 0.2s ease;
         }
 
         .channel-item:hover {
@@ -140,85 +139,75 @@
         }
 
         .channel-item::before {
-            content: "📺";
-            margin-right: 12px;
-            font-size: 1.1rem;
+            content: "🔴";
+            margin-right: 10px;
+            font-size: 0.8rem;
         }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>🇧🇩 BD IPTV Live - অনলাইন টিভি</h1>
-        <div class="live-badge">🔴 LIVE</div>
+        <h1>🇧🇩 BD ONLINE TV (ডাউনলোড ছাড়া লাইভ)</h1>
+        <div class="live-badge">LIVE</div>
     </header>
 
     <div class="main-container">
         
         <div class="player-section">
             <div class="video-wrapper">
-                <video 
-                    id="bd-tv-player" 
-                    class="video-js vjs-big-play-centered vjs-theme-city" 
-                    controls 
-                    preload="auto" 
-                    width="640" 
-                    height="360"
-                    data-setup='{"fluid": true}'>
-                    <source src="https://mme.nextcdn.org/somoy/live/playlist.m3u8" type="application/x-mpegURL" />
-                </video>
+                <iframe 
+                    id="tv-frame"
+                    src="https://www.youtube.com/embed/live_stream?channel=UC99Fbe9wIor1b6onS_sz0Sg&autoplay=1" 
+                    allow="autoplay; encrypted-media; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
             </div>
-            <div class="current-playing" id="playing-title">Now Playing: Somoy TV (সময় টিভি)</div>
+            <div class="current-playing" id="playing-title">Now Playing: Somoy TV (সময় টিভি)</div>
         </div>
 
         <div class="channel-sidebar">
-            <div class="sidebar-header">চ্যানেল সমূহ (Working Channels)</div>
+            <div class="sidebar-header">চ্যানেল সিলেক্ট করুন:</div>
             <div class="channel-list">
                 
-                <button class="channel-item active" onclick="changeChannel('https://mme.nextcdn.org/somoy/live/playlist.m3u8', 'application/x-mpegURL', 'Somoy TV (সময় টিভি)', this)">
+                <button class="channel-item active" onclick="switchLive('UC99Fbe9wIor1b6onS_sz0Sg', 'Somoy TV (সময় টিভি)', this)">
                     Somoy TV
                 </button>
                 
-                <button class="channel-item" onclick="changeChannel('https://starshare.live:2083/IndependentTV/index.m3u8', 'application/x-mpegURL', 'Independent TV (ইনডিপেনডেন্ট টিভি)', this)">
-                    Independent TV
-                </button>
-                
-                <button class="channel-item" onclick="changeChannel('https://starshare.live:2083/JamunaTV/index.m3u8', 'application/x-mpegURL', 'Jamuna TV (যমুনা টিভি)', this)">
+                <button class="channel-item" onclick="switchLive('UC7V8nAsG9itZbeZgK18R9pA', 'Jamuna TV (যমুনা টিভি)', this)">
                     Jamuna TV
                 </button>
                 
-                <button class="channel-item" onclick="changeChannel('https://starshare.live:2083/BTVWorld/index.m3u8', 'application/x-mpegURL', 'BTV World (বিটিভি ওয়ার্ল্ড)', this)">
-                    BTV World
+                <button class="channel-item" onclick="switchLive('UCsreKstXkfR77GbyE7-7S4Q', 'Independent TV (ইনডিপেনডেন্ট)', this)">
+                    Independent TV
                 </button>
-                
-                <button class="channel-item" onclick="changeChannel('https://starshare.live:2083/Channel24/index.m3u8', 'application/x-mpegURL', 'Channel 24 (চ্যানেল ২৪)', this)">
+
+                <button class="channel-item" onclick="switchLive('UC9m8V-WAnEGlp_fS0fK7yMg', 'Channel 24 (চ্যানেল ২৪)', this)">
                     Channel 24
                 </button>
 
+                <button class="channel-item" onclick="switchLive('UCbB7fR869LXO7S869yO4Sww', 'Ekattor TV (একাত্তর টিভি)', this)">
+                    Ekattor TV
+                </button>
+                
             </div>
         </div>
 
     </div>
 
-    <script src="https://vjs.zencdn.net/8.10.0/video.js"></script>
-
     <script>
-        function changeChannel(streamUrl, streamType, channelName, element) {
-            var player = videojs('bd-tv-player');
+        // Directly maps and switches official Live parameters instantly without loading errors
+        function switchLive(channelId, channelName, element) {
+            var frame = document.getElementById('tv-frame');
             
-            player.src({
-                src: streamUrl,
-                type: streamType
-            });
+            // Rebuilds direct direct-play live embed stream url link structure
+            frame.src = "https://www.youtube.com/embed/live_stream?channel=" + channelId + "&autoplay=1";
             
-            player.play().catch(function(error) {
-                console.log("Stream loading or playback interrupted.");
-            });
-
+            // Adjust visual states 
             document.getElementById('playing-title').innerText = "Now Playing: " + channelName;
             document.querySelectorAll('.channel-item').forEach(item => item.classList.remove('active'));
             element.classList.add('active');
         }
     </script>
 </body>
-    </html>
+</html>
